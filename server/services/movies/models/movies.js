@@ -11,7 +11,7 @@ class Movies {
     }
 
     static update(id, updatedMovie) {
-        // console.log(id, updatedMovie);
+        console.log(id, updatedMovie);
         return getDatabase().collection("Movies").replaceOne({ _id: ObjectId(id) }, updatedMovie, { upsert: true });
     }
 

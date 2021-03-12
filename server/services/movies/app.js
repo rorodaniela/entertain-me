@@ -1,8 +1,8 @@
 const express = require('express')
-const {connect} = require('../../monolith/config/mongodb')
+const {connect} = require('./config/mongodb')
 const app = express()
-const router = require('../../monolith/routes')
-const port = 3000
+const router = require('./routes')
+const port = 4001
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
