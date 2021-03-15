@@ -11,7 +11,6 @@ class Series {
     }
 
     static update(id, updatedSeries) {
-        console.log(id, updatedSeries);
         return getDatabase().collection("TVSeries").replaceOne({ _id: ObjectId(id) }, updatedSeries, { upsert: true });
     }
 

@@ -4,36 +4,36 @@ class MoviesController {
     static async find(req, res) {
         try {
             const movies = await Movies.find();
-            res.json(movies);
+            res.status(200).json(movies);
         } catch (error) {
-            console.log(error);
+            res.status(500).json(error)
         }
     }
 
     static async create(req, res) {
         try {
             const newMovie = await Movies.create(req.body);
-            res.json(newMovie);
+            res.status(201).json(newMovie);
         } catch (error) {
-            console.log(error);
+            res.status(500).json(error);
         }
     }
 
     static async update(req, res) {
         try {
             const updatedMovie = await Movies.update(req.params.id, req.body);
-            res.json(updatedMovie);
+            res.status(200).json(updatedMovie);
         } catch (error) {
-            console.log(error);
+            res.status(500).json(error)
         }
     }
 
     static async delete(req, res) {
         try {
             const deleteMovie = await Movies.delete(req.params.id);
-            res.json(deleteMovie);
+            res.status(200).json({message: 'Data deleted'});
         } catch (error) {
-            console.log(error);
+            res.status(500).json(error)
         }
     }
 }
