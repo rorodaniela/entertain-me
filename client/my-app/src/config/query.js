@@ -5,10 +5,16 @@ export const GETALL = gql`
         movies {
             _id
             title
+            overview
+            poster_path
+            popularity
         }
         series {
             _id
             title
+            overview
+            poster_path
+            popularity
         }
     }
 `;
@@ -18,6 +24,8 @@ export const GETMOVIES = gql`
         movies {
             _id
             title
+            poster_path
+            popularity
         }
     }
 `;
@@ -27,19 +35,48 @@ export const GETSERIES = gql`
         series {
             _id
             title
+            poster_path
+            popularity
+        
         }
     }
 `;
 
-// export const POSTMOVIE = gql`
-//     mutation POSTMOVIE($addMovie: inputMovie) {
-//         addMovie(newMovie: $addMovie) {
-//             title
-//             overview
-//             popularity
-//         }
-//     }
-// `;
+export const MOVIEBYID = gql`
+    query movieById($userId: ID) {
+        movieById(id: $userId) {
+            _id
+            title
+            overview
+            poster_path
+            popularity
+            tags
+        }
+    }
+`;
+
+export const SERIEBYID = gql`
+    query serieById {
+        serieById(id: ID) {
+            _id
+            title
+            overview
+            poster_path
+            popularity
+            tags
+        }
+    }
+`;
+
+export const POSTMOVIE = gql`
+    mutation POSTMOVIE($newData: inputMovie) {
+        addMovie(newMovie: $newData) {
+            title
+            overview
+            popularity
+        }
+    }
+`;
 
 // export const POSTSerie = gql`
 //     mutation POSTSerie($addSerie: inputSerie) {

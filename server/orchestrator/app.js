@@ -25,9 +25,15 @@ const typeDefs = gql`
         popularity: Float
     }
 
+    type userId {
+        _id : ID
+    }
+
     type Query {
         movies: [Movie]
         series: [Serie]
+        movieById(id: ID): Movie
+        serieById(id: ID): Serie
     }
 
     input inputMovie {
@@ -47,7 +53,6 @@ const typeDefs = gql`
     }
 
     type Status {
-        _id: ID
         message: String
     }
 
@@ -123,15 +128,54 @@ const resolvers = {
                 return new ApolloError(error);
             }
         },
+        movieById: async (_, args) => {
+            console.log(args.id, "<<");
+            try {
+                const {data} = await axios({
+                    url: urlMovies + args.id,
+                    method: "GET",
+                });
+                console.log(data, "<<<");
+                return data;
+            
+            } catch (error) {
+                console.log(error, "<<<");
+                return new ApolloError(error);
+            }
+        },
+        serieById: async (_, args) => {
+            try {
+                console.log(args.id, "<< id serie");
+                const serieCache = await redis.get("serie:data");
+                if (serieCache) {
+                    return JSON.parse(serieCache);
+                } else {
+                    const dataserie = await axios({
+                        url: urlSeries + args.id,
+                        method: "GET",
+                    });
+                    await redis.set(
+                        "serie:data",
+                        JSON.stringify(dataserie.data)
+                    );
+                    return dataserie.data;
+                }
+            } catch (error) {
+                // console.log(error, "<<< error");
+                return new ApolloError(error);
+            }
+        },
     },
     Mutation: {
         addMovie: async (_, args) => {
             try {
+                console.log(args.newMovie, "<<< data buat post dari orches");
                 const result = await axios({
                     url: urlMovies,
                     method: "POST",
                     data: args.newMovie,
                 });
+                await redis.del("movies:data");
                 return result.data.ops[0];
             } catch (error) {
                 return new ApolloError(error);
@@ -144,6 +188,7 @@ const resolvers = {
                     method: "POST",
                     data: args.newSerie,
                 });
+                await redis.del("series:data");
                 return result.data.ops[0];
             } catch (error) {
                 return new ApolloError(error);
@@ -156,7 +201,7 @@ const resolvers = {
                     url: urlMovies + args.id._id,
                     method: "DELETE",
                 });
-                console.log(deletedMovie.data, "<<< deleted movie");
+                await redis.del("movies:data");
                 return deletedMovie.data;
             } catch (error) {
                 return new ApolloError(error);
@@ -169,7 +214,7 @@ const resolvers = {
                     url: urlSeries + args.id._id,
                     method: "DELETE",
                 });
-                console.log(deletedSerie.data, "<<< deleted Serie");
+                await redis.del("series:data");
                 return deletedSerie.data;
             } catch (error) {
                 return new ApolloError(error);
@@ -190,7 +235,7 @@ const resolvers = {
                     method: "PUT",
                     data: dataUpdate,
                 });
-                console.log(result.data.ops[0], "<<< res put");
+                await redis.del("movies:data");
                 return result.data.ops[0];
             } catch (error) {
                 return new ApolloError(error);
@@ -210,6 +255,7 @@ const resolvers = {
                     method: "PUT",
                     data: dataUpdate,
                 });
+                await redis.del("series:data");
                 return result.data.ops[0];
             } catch (error) {
                 return new ApolloError(error);

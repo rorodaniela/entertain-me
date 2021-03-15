@@ -6,6 +6,10 @@ class Series {
         return getDatabase().collection("TVSeries").find().toArray();
     }
 
+    static findById(id) {
+        return getDatabase().collection("TVSeries").findOne({_id: ObjectId(id)})
+    }
+
     static create(newSeries) {
         return getDatabase().collection("TVSeries").insertOne(newSeries);
     }

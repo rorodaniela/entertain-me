@@ -6,17 +6,25 @@ class Movies {
         return getDatabase().collection("Movies").find().toArray();
     }
 
+    static findById(id) {
+        return getDatabase().collection("Movies").findOne({_id: ObjectId(id)})
+    }
+
     static create(newMovie) {
         return getDatabase().collection("Movies").insertOne(newMovie);
     }
 
     static update(id, updatedMovie) {
         console.log(id, updatedMovie);
-        return getDatabase().collection("Movies").replaceOne({ _id: ObjectId(id) }, updatedMovie, { upsert: true });
+        return getDatabase()
+            .collection("Movies")
+            .replaceOne({ _id: ObjectId(id) }, updatedMovie, { upsert: true });
     }
 
     static delete(id) {
-        return getDatabase().collection("Movies").deleteOne({ _id: ObjectId(id) });
+        return getDatabase()
+            .collection("Movies")
+            .deleteOne({ _id: ObjectId(id) });
     }
 }
 
