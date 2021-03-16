@@ -78,46 +78,45 @@ export const POSTMOVIE = gql`
     }
 `;
 
-// export const POSTSerie = gql`
-//     mutation POSTSerie($addSerie: inputSerie) {
-//         addSerie(newSerie: $addSerie) {
-//             title
-//             overview
-//             popularity
-//         }
-//     }
-// `;
+export const POSTSerie = gql`
+    mutation POSTSerie($newData: inputSerie) {
+        addSerie(newSerie: $newData) {
+            title
+            overview
+            popularity
+        }
+    }
+`;
 
-// export const DELETEMOVIE = gql`
-//     mutation DELETEMOVIE($deleteMovie: inputDelete) {
-//         deleteMovie(id: $deleteMovie) {
-//             _id
-//             message
-//         }
-//     }
-// `;
+export const DELETEMOVIE = gql`
+    mutation DELETEMOVIE($itemId: inputDelete) {
+        deleteMovie(id: $itemId) {
+            message
+        }
+    }
+`;
 
 // export const DELETESERIE = gql`
-//     mutation DELETESERIE($deleteSerie: inputDelete) {
-//         deleteSerie(id: $deleteSerie) {
+//     mutation DELETESERIE($itemId: inputDelete) {
+//         deleteSerie(id: $itemId) {
 //             _id
 //             message
 //         }
 //     }
 // `;
 
-// export const UPDATEMOVIES = gql`
-//     mutation UPDATEMOVIE($updateMovie: inputUpdate) {
-//         updateMovie(updatedMovie: $updateMovie) {
-//             _id
-//             title
-//             overview
-//             poster_path
-//             tags
-//             popularity
-//         }
-//     }
-// `;
+export const UPDATEMOVIES = gql`
+    mutation UPDATEMOVIE($updateMovie: inputUpdate) {
+        updateMovie(updatedMovie: $updateMovie) {
+            _id
+            title
+            overview
+            poster_path
+            tags
+            popularity
+        }
+    }
+`;
 
 // export const UPDATESERIE = gql`
 //     mutation UPDATESERIE($updateSerie: inputUpdate) {

@@ -4,7 +4,7 @@ import Carousel from '../components/Carousel'
 import {GETALL} from '../config/query'
 
 function Home() {
-    const {loading, error, data} = useQuery(GETALL)
+    const {loading, data} = useQuery(GETALL)
     
     if (loading) {
         return <h1>loading...</h1>

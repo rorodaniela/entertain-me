@@ -6,7 +6,6 @@ function Card(props) {
         history.push(`/detail/Movies/${props.movie._id}`)
     }
     const rating = Math.floor(props.movie.popularity);
-    console.log(rating, "<>>rating")
     const popularity = Array(rating).fill().map((el, i) => i + 1)
 
     return (

@@ -9,7 +9,8 @@ import {
 } from "react-router-dom"
 import Detail from './pages/Detail';
 import Navigation from "./components/Navigation"
-import AddForm from './pages/AddForm';
+import AddForm from "./pages/AddForm"
+import EditForm from "./pages/EditForm";
 
 function App() {
   return (
@@ -17,14 +18,17 @@ function App() {
           <Router>
               <Navigation />
               <Switch>
-                  <Route path="/detail/:category/:id">
-                      <Detail />
-                  </Route>
                   <Route path="/add/:category">
                       <AddForm />
                   </Route>
+                  <Route path="/edit/:category/:id">
+                      <EditForm />
+                  </Route>
+                  <Route path="/detail/:category/:id">
+                      <Detail />
+                  </Route>
                   <Route>
-                      <Home exact path="/" />
+                      <Home path="/:category" />
                   </Route>
               </Switch>
           </Router>

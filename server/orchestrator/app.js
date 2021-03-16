@@ -84,16 +84,13 @@ const resolvers = {
         movies: async () => {
             try {
                 const moviesCache = await redis.get("movies:data");
-                console.log("MASUK BANG");
                 if (moviesCache) {
-                    console.log(moviesCache, "<<< cache");
                     return JSON.parse(moviesCache);
                 } else {
                     const dataMovies = await axios({
                         url: urlMovies,
                         method: "GET",
                     });
-                    console.log(dataMovies.data, "<<< datamovies");
                     await redis.set(
                         "movies:data",
                         JSON.stringify(dataMovies.data)
@@ -108,16 +105,13 @@ const resolvers = {
         series: async () => {
             try {
                 const seriesCache = await redis.get("series:data");
-                console.log("MASUK BANG");
                 if (seriesCache) {
-                    console.log(seriesCache, "<<< cache");
                     return JSON.parse(seriesCache);
                 } else {
                     const dataseries = await axios({
                         url: urlSeries,
                         method: "GET",
                     });
-                    console.log(dataseries.data, "<<< dataseries");
                     await redis.set(
                         "series:data",
                         JSON.stringify(dataseries.data)
@@ -129,13 +123,11 @@ const resolvers = {
             }
         },
         movieById: async (_, args) => {
-            console.log(args.id, "<<");
             try {
                 const {data} = await axios({
                     url: urlMovies + args.id,
                     method: "GET",
                 });
-                console.log(data, "<<<");
                 return data;
             
             } catch (error) {
@@ -145,7 +137,6 @@ const resolvers = {
         },
         serieById: async (_, args) => {
             try {
-                console.log(args.id, "<< id serie");
                 const serieCache = await redis.get("serie:data");
                 if (serieCache) {
                     return JSON.parse(serieCache);
@@ -169,7 +160,6 @@ const resolvers = {
     Mutation: {
         addMovie: async (_, args) => {
             try {
-                console.log(args.newMovie, "<<< data buat post dari orches");
                 const result = await axios({
                     url: urlMovies,
                     method: "POST",
@@ -195,12 +185,14 @@ const resolvers = {
             }
         },
         deleteMovie: async (_, args) => {
+            console.log("<< masuk orchestra delet");
             try {
-                console.log(args.id._id, "<< id");
+                console.log(args.id._id, "<< id dari orches");
                 const deletedMovie = await axios({
                     url: urlMovies + args.id._id,
                     method: "DELETE",
                 });
+                console.log(deletedMovie, "<<< delete dari oches");
                 await redis.del("movies:data");
                 return deletedMovie.data;
             } catch (error) {
