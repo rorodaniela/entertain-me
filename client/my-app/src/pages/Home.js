@@ -18,7 +18,7 @@ function Home() {
                     <div style={{ overflow: "auto", padding: "10px" }}>
                         <div className="d-flex flex-row">
                             {data.movies?.map((el) => {
-                                return <Card movie={el} key={el.id} />;
+                                return <Card data={el} key={el.id} />;
                             })}
                         </div>
                     </div>
@@ -26,8 +26,8 @@ function Home() {
                     <h3>SERIES</h3>
                     <div style={{ overflow: "auto", padding: "10px" }}>
                         <div className="d-flex flex-row">
-                            {data.movies?.map((el) => {
-                                return <Card movie={el} key={el.id} />;
+                            {data.series?.map((el) => {
+                                return <Card data={el} key={el.id}/>;
                             })}
                         </div>
                     </div>

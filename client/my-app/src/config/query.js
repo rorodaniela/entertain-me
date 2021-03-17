@@ -56,8 +56,8 @@ export const MOVIEBYID = gql`
 `;
 
 export const SERIEBYID = gql`
-    query serieById {
-        serieById(id: ID) {
+    query serieById($userId: ID) {
+        serieById(id: $userId) {
             _id
             title
             overview
@@ -78,8 +78,8 @@ export const POSTMOVIE = gql`
     }
 `;
 
-export const POSTSerie = gql`
-    mutation POSTSerie($newData: inputSerie) {
+export const POSTSERIE = gql`
+    mutation POSTSERIE($newData: inputSerie) {
         addSerie(newSerie: $newData) {
             title
             overview
@@ -96,18 +96,17 @@ export const DELETEMOVIE = gql`
     }
 `;
 
-// export const DELETESERIE = gql`
-//     mutation DELETESERIE($itemId: inputDelete) {
-//         deleteSerie(id: $itemId) {
-//             _id
-//             message
-//         }
-//     }
-// `;
+export const DELETESERIE = gql`
+    mutation DELETESERIE($itemId: inputDelete) {
+        deleteSerie(id: $itemId) {
+            message
+        }
+    }
+`;
 
-export const UPDATEMOVIES = gql`
-    mutation UPDATEMOVIE($updateMovie: inputUpdate) {
-        updateMovie(updatedMovie: $updateMovie) {
+export const UPDATEMOVIE = gql`
+    mutation UPDATEMOVIE($input: inputUpdate) {
+        updateMovie(updatedMovie: $input) {
             _id
             title
             overview
@@ -118,15 +117,15 @@ export const UPDATEMOVIES = gql`
     }
 `;
 
-// export const UPDATESERIE = gql`
-//     mutation UPDATESERIE($updateSerie: inputUpdate) {
-//         updateSerie(updatedSerie: $updateSerie) {
-//             _id
-//             title
-//             overview
-//             poster_path
-//             tags
-//             popularity
-//         }
-//     }
-// `;
+export const UPDATESERIE = gql`
+    mutation UPDATESERIE($input: inputUpdate) {
+        updateSerie(updatedSerie: $input) {
+            _id
+            title
+            overview
+            poster_path
+            tags
+            popularity
+        }
+    }
+`;

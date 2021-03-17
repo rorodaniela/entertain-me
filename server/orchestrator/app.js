@@ -137,22 +137,12 @@ const resolvers = {
         },
         serieById: async (_, args) => {
             try {
-                const serieCache = await redis.get("serie:data");
-                if (serieCache) {
-                    return JSON.parse(serieCache);
-                } else {
-                    const dataserie = await axios({
-                        url: urlSeries + args.id,
-                        method: "GET",
-                    });
-                    await redis.set(
-                        "serie:data",
-                        JSON.stringify(dataserie.data)
-                    );
-                    return dataserie.data;
-                }
+                const dataserie = await axios({
+                    url: urlSeries + args.id,
+                    method: "GET",
+                });
+                return dataserie.data;
             } catch (error) {
-                // console.log(error, "<<< error");
                 return new ApolloError(error);
             }
         },
@@ -214,7 +204,6 @@ const resolvers = {
         },
         updateMovie: async (_, args) => {
             try {
-                console.log(args, "<<< input");
                 const dataUpdate = {
                     title: args.updatedMovie.title,
                     overview: args.updatedMovie.overview,
@@ -235,6 +224,8 @@ const resolvers = {
         },
         updateSerie: async (_, args) => {
             try {
+                console.log(args, "<<< input");
+
                 const dataUpdate = {
                     title: args.updatedSerie.title,
                     overview: args.updatedSerie.overview,

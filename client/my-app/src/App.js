@@ -2,15 +2,18 @@ import './App.css';
 import Home from './pages/Home';
 import { ApolloProvider } from "@apollo/client";
 import client from "./config/index";
+import Detail from "./pages/Detail";
+import Navigation from "./components/Navigation";
+import AddForm from "./pages/AddForm";
+import EditForm from "./pages/EditForm";
+import Movies from "./pages/Movies"
+import Series from "./pages/Series"
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom"
-import Detail from './pages/Detail';
-import Navigation from "./components/Navigation"
-import AddForm from "./pages/AddForm"
-import EditForm from "./pages/EditForm";
+import Favorites from './pages/Favorites';
 
 function App() {
   return (
@@ -18,6 +21,15 @@ function App() {
           <Router>
               <Navigation />
               <Switch>
+                  <Route exact path="/">
+                      <Home />
+                  </Route>
+                  <Route path="/movies">
+                      <Movies />
+                  </Route>
+                  <Route path="/series">
+                      <Series />
+                  </Route>
                   <Route path="/add/:category">
                       <AddForm />
                   </Route>
@@ -28,7 +40,7 @@ function App() {
                       <Detail />
                   </Route>
                   <Route>
-                      <Home path="/:category" />
+                      <Favorites path="/favorites" />
                   </Route>
               </Switch>
           </Router>
