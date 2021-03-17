@@ -6,7 +6,7 @@ import FormTemp from "../components/FormTemp"
 function EditForm() {
     let query
     let queryUpdate
-     let temp;
+    let temp;
 
     const history = useHistory();
     const {id, category} = useParams()

@@ -1,15 +1,24 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
 import { useHistory, useParams } from "react-router";
-import {MOVIEBYID, DELETEMOVIE, DELETESERIE, GETALL, SERIEBYID} from '../config/query'
 import { favoriteMovies, favoriteSeries } from "../vars/favorites";
+import Swal from 'sweetalert2'
+import {
+    MOVIEBYID,
+    DELETEMOVIE,
+    DELETESERIE,
+    GETALL,
+    SERIEBYID
+} from "../config/query";
 
 function Detail() {
     let query
     let queryDelete
     let result;
 
-    const {id, category} = useParams()
     const history = useHistory()
+    const {id, category} = useParams()
+    const favMovies = useReactiveVar(favoriteMovies);
+    const favSeries = useReactiveVar(favoriteSeries);
 
     if (category ==="Movie") {
         query = MOVIEBYID;
@@ -36,21 +45,66 @@ function Detail() {
     }
     
     const handleDelete = () => {
-        console.log(result._id, "<<< id serie delete");
-        deleted({
-            variables: { itemId: {_id: result._id} }
+        Swal.fire({
+            title: `Are you sure want to remove this?`,
+            showCancelButton: true,
+            confirmButtonText: `Delete`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                deleted({
+                    variables: { itemId: { _id: result._id } },
+                });
+                history.push("/");
+            }
         });
-        history.push("/")
+        
     }
 
     const handleFavorite = () => {
         let existingData
         if (category === "Movie") {
-            existingData = favoriteMovies()
-            favoriteMovies([result, ...existingData]);
+            const double = favMovies.filter(el => {
+                return el.title === data.movieById.title
+            })
+            if (double.length  > 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: `${data.movieById.title} already exist`,
+                    timer: 1500,
+                    showConfirmButton: false,
+                });
+            }else {
+                existingData = favoriteMovies()
+                favoriteMovies([result, ...existingData]);
+                Swal.fire({
+                    icon: "success",
+                    title: `${data.movieById.title} saved to your favorites`,
+                    timer: 1500,
+                    showConfirmButton: false,
+                });
+            }
         } else if (category === "Serie") {
-            existingData = favoriteSeries()
-            favoriteSeries([result, ...existingData]);
+            const double2 = favSeries.filter((el) => {
+                return el.title === data.serieById.title;
+            });
+            if (double2.length > 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: `${data.serieById.title} already exist`,
+                    timer: 1500,
+                    showConfirmButton: false,
+                });
+            } else {
+                existingData = favoriteSeries();
+                favoriteSeries([result, ...existingData]);
+                Swal.fire({
+                    icon: "success",
+                    title: `${data.serieById.title} saved to your favorites`,
+                    timer: 1500,
+                    showConfirmButton: false,
+                });
+            }
         }
         
     }
